@@ -8,4 +8,8 @@ if [[ $KM_USERNAME != ''  && $KM_PASSWORD != '' ]]; then
     echo 'basicAuthentication.realm="Kafka-Manager"' >> /kafka-manager-${KM_VERSION}/conf/application.conf
 fi
 
+
+sed -i.context_bak '/^play.http.context/d' /kafka-manager-${KM_VERSION}/conf/application.conf
+echo "play.http.context=\"${KM_HTTP_CONTEXT}\"" >> /kafka-manager-${KM_VERSION}/conf/application.conf
+
 exec ./bin/kafka-manager -Dconfig.file=${KM_CONFIGFILE} "${KM_ARGS}" "${@}"
